@@ -39,10 +39,10 @@ Pada sisi antarmuka, NutriWatch menyajikan dasbor monitoring interaktif tingkat 
 
 | No. | Nama | NRP | Peran Kelompok | Tanggung Jawab Teknis Utama |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | Daniswara Fausta Novanto | 5027241050 | Lead Data Engineer | Membangun arsitektur pipeline data menggunakan Apache Kafka dan Apache NiFi; bertanggung jawab atas kelancaran ingestion data dari sumber eksternal ke cluster pemrosesan. |
+| 1 | Muhammad Huda Rabbani | 5027241098 | Lead Data Engineer | Membangun arsitektur pipeline data menggunakan Apache Kafka dan Apache NiFi; bertanggung jawab atas kelancaran ingestion data dari sumber eksternal ke cluster pemrosesan. |
 | 2 | Muhammad Fachry Shalahuddin Rusamsi | 5027241031 | Big Data Developer | Mengembangkan skrip pemrosesan inti pada Apache Spark Streaming; melakukan transformasi, pembersihan data masif, dan penggabungan (data join) antar-dataset operasional. |
 | 3 | Muhammad Khairul Yahya | 5027241092 | ML & NLP Specialist | Melatih model IndoBERT untuk Aspect-Based Sentiment Analysis; mengembangkan skrip deteksi anomali anggaran menggunakan algoritma machine learning (scikit-learn/PyTorch). |
-| 4 | Muhammad Huda Rabbani | 5027241098 | Database & Storage Engineer | Mengonfigurasi klaster HDFS dan mengoptimalkan indeks pencarian pada Elasticsearch; memastikan retensi data aman dan kueri dashboard berjalan dengan latensi rendah. |
+| 4 | Daniswara Fausta Novanto | 5027241050 | Database & Storage Engineer | Mengonfigurasi klaster HDFS dan mengoptimalkan indeks pencarian pada Elasticsearch; memastikan retensi data aman dan kueri dashboard berjalan dengan latensi rendah. |
 | 5 | Abiyyu Raihan Putra Wikanto | 5027241042 | UI/UX & Frontend Dev | Membangun dashboard monitoring interaktif (Grafana/React); mengintegrasikan visualisasi peta risiko (geospatial), sistem notifikasi red-flag, dan penyusunan dokumen laporan. |
 
 ---
