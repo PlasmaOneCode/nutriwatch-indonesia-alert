@@ -53,10 +53,10 @@ Repositori ini menggunakan struktur *monorepo* untuk memfasilitasi kolaborasi se
 
 ```text
 ├── /frontend               # [Tugas Abiyyu] Aplikasi Dashboard React, Tailwind, & Leaflet Maps
-├── /data-engineering       # [Tugas Daniswara] Pipeline Ingestion (Apache Kafka & Apache NiFi)
+├── /data-engineering       # [Tugas Huda] Pipeline Ingestion (Apache Kafka & Apache NiFi)
 ├── /big-data-processing    # [Tugas Fachry] Core Processing Scripts (Apache Spark Streaming)
 ├── /ml-nlp                 # [Tugas Irul] Model IndoBERT (ABSA) & Isolation Forest
-└── /database-storage       # [Tugas Huda] Konfigurasi Cluster HDFS & Indexing Elasticsearch
+└── /database-storage       # [Tugas Danis] Konfigurasi Cluster HDFS & Indexing Elasticsearch
 
 ```
 
