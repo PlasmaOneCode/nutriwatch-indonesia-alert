@@ -1,21 +1,21 @@
 # NutriWatch: Big Data-Driven Early Warning System untuk Ekosistem Program Makan Bergizi Gratis (MBG)
 
-<p align="center">
-  <!-- Logo Proyek (Ukuran diperkecil agar proporsional dan estetis) -->
+<div align="center">
+  <!-- Logo Proyek -->
   <img width="180" alt="NutriWatch Logo" src="https://github.com/user-attachments/assets/e1ab8a15-8920-47f0-8ad3-c42d1d35f64a" />
   <br><br>
-
-  <!-- Barisan Badges -->
+  <!-- Barisan Badges Baris 1 -->
   <a href="https://react.dev/"><img src="https://img.shields.io/badge/Framework-React%2018-blue?style=flat-square&logo=react" alt="Framework - React"></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?style=flat-square&logo=tailwind-css" alt="Styling - TailwindCSS"></a>
   <a href="https://leafletjs.com/"><img src="https://img.shields.io/badge/Maps-OSM%20%26%20Leaflet-green?style=flat-square&logo=openstreetmap" alt="Maps - OpenStreetMap"></a>
   <img src="https://img.shields.io/badge/Build-passing-brightgreen?style=flat-square" alt="Build - Passing">
   <img src="https://img.shields.io/badge/codecov-77%25-orange?style=flat-square" alt="Codecov">
   <br>
+  <!-- Barisan Badges Baris 2 -->
   <img src="https://img.shields.io/badge/Documentation-v1.0-blue?style=flat-square" alt="Documentation">
   <img src="https://img.shields.io/badge/Open%20in-Colab-yellow?style=flat-square&logo=googlecolab" alt="Open in Colab">
   <img src="https://img.shields.io/badge/Discord-Community-7289DA?style=flat-square&logo=discord" alt="Discord">
-</p>
+</div>
 
 ---
 
