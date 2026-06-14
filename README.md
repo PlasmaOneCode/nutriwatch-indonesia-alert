@@ -1,6 +1,10 @@
 # NutriWatch: Big Data-Driven Early Warning System untuk Ekosistem Program Makan Bergizi Gratis (MBG)
 
 <p align="center">
+  <img width="462" height="486" alt="image" src="https://github.com/user-attachments/assets/e1ab8a15-8920-47f0-8ad3-c42d1d35f64a" />
+</p>
+
+<p align="center">
   <a href="https://react.dev/"><img src="https://img.shields.io/badge/Framework-React%2018-blue?style=flat-square&logo=react" alt="Framework - React"></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?style=flat-square&logo=tailwind-css" alt="Styling - TailwindCSS"></a>
   <a href="https://leafletjs.com/"><img src="https://img.shields.io/badge/Maps-OSM%20%26%20Leaflet-green?style=flat-square&logo=openstreetmap" alt="Maps - OpenStreetMap"></a>
