@@ -1,21 +1,21 @@
 # NutriWatch: Big Data-Driven Early Warning System untuk Ekosistem Program Makan Bergizi Gratis (MBG)
 
-<p align="center">
-  <!-- Logo Proyek (Ukuran diperkecil agar proporsional dan estetis) -->
+<div align="center">
+  <!-- Logo Proyek -->
   <img width="180" alt="NutriWatch Logo" src="https://github.com/user-attachments/assets/e1ab8a15-8920-47f0-8ad3-c42d1d35f64a" />
   <br><br>
-
-  <!-- Barisan Badges -->
+  <!-- Barisan Badges Baris 1 -->
   <a href="https://react.dev/"><img src="https://img.shields.io/badge/Framework-React%2018-blue?style=flat-square&logo=react" alt="Framework - React"></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?style=flat-square&logo=tailwind-css" alt="Styling - TailwindCSS"></a>
   <a href="https://leafletjs.com/"><img src="https://img.shields.io/badge/Maps-OSM%20%26%20Leaflet-green?style=flat-square&logo=openstreetmap" alt="Maps - OpenStreetMap"></a>
   <img src="https://img.shields.io/badge/Build-passing-brightgreen?style=flat-square" alt="Build - Passing">
   <img src="https://img.shields.io/badge/codecov-77%25-orange?style=flat-square" alt="Codecov">
   <br>
+  <!-- Barisan Badges Baris 2 -->
   <img src="https://img.shields.io/badge/Documentation-v1.0-blue?style=flat-square" alt="Documentation">
   <img src="https://img.shields.io/badge/Open%20in-Colab-yellow?style=flat-square&logo=googlecolab" alt="Open in Colab">
   <img src="https://img.shields.io/badge/Discord-Community-7289DA?style=flat-square&logo=discord" alt="Discord">
-</p>
+</div>
 
 ---
 
@@ -39,10 +39,10 @@ Pada sisi antarmuka, NutriWatch menyajikan dasbor monitoring interaktif tingkat 
 
 | No. | Nama | NRP | Peran Kelompok | Tanggung Jawab Teknis Utama |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | Daniswara Fausta Novanto | 5027241050 | Lead Data Engineer | Membangun arsitektur pipeline data menggunakan Apache Kafka dan Apache NiFi; bertanggung jawab atas kelancaran ingestion data dari sumber eksternal ke cluster pemrosesan. |
+| 1 | Muhammad Huda Rabbani | 5027241098 | Lead Data Engineer | Membangun arsitektur pipeline data menggunakan Apache Kafka dan Apache NiFi; bertanggung jawab atas kelancaran ingestion data dari sumber eksternal ke cluster pemrosesan. |
 | 2 | Muhammad Fachry Shalahuddin Rusamsi | 5027241031 | Big Data Developer | Mengembangkan skrip pemrosesan inti pada Apache Spark Streaming; melakukan transformasi, pembersihan data masif, dan penggabungan (data join) antar-dataset operasional. |
 | 3 | Muhammad Khairul Yahya | 5027241092 | ML & NLP Specialist | Melatih model IndoBERT untuk Aspect-Based Sentiment Analysis; mengembangkan skrip deteksi anomali anggaran menggunakan algoritma machine learning (scikit-learn/PyTorch). |
-| 4 | Muhammad Huda Rabbani | 5027241098 | Database & Storage Engineer | Mengonfigurasi klaster HDFS dan mengoptimalkan indeks pencarian pada Elasticsearch; memastikan retensi data aman dan kueri dashboard berjalan dengan latensi rendah. |
+| 4 | Daniswara Fausta Novanto | 5027241050 | Database & Storage Engineer | Mengonfigurasi klaster HDFS dan mengoptimalkan indeks pencarian pada Elasticsearch; memastikan retensi data aman dan kueri dashboard berjalan dengan latensi rendah. |
 | 5 | Abiyyu Raihan Putra Wikanto | 5027241042 | UI/UX & Frontend Dev | Membangun dashboard monitoring interaktif (Grafana/React); mengintegrasikan visualisasi peta risiko (geospatial), sistem notifikasi red-flag, dan penyusunan dokumen laporan. |
 
 ---
@@ -57,10 +57,10 @@ Repositori ini menggunakan struktur *monorepo* untuk memfasilitasi kolaborasi se
 │   ├── package.json        # Dependencies & scripts
 │   ├── vite.config.ts      # Vite + TanStack Start config
 │   └── tsconfig.json       # TypeScript config
-├── /data-engineering       # [Tugas Daniswara] Pipeline Ingestion (Apache Kafka & Apache NiFi)
+├── /data-engineering       # [Tugas Huda] Pipeline Ingestion (Apache Kafka & Apache NiFi)
 ├── /big-data-processing    # [Tugas Fachry] Core Processing Scripts (Apache Spark Streaming)
 ├── /ml-nlp                 # [Tugas Irul] Model IndoBERT (ABSA) & Isolation Forest
-└── /database-storage       # [Tugas Huda] Konfigurasi Cluster HDFS & Indexing Elasticsearch
+└── /database-storage       # [Tugas Danis] Konfigurasi Cluster HDFS & Indexing Elasticsearch
 
 ```
 
