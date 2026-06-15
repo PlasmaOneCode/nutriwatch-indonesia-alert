@@ -1,0 +1,95 @@
+{
+  "alerts": [
+    {
+      "alert_id": "a1",
+      "level": "critical",
+      "title": "RED FLAG: Risiko Tinggi Keracunan",
+      "message": "Dapur Umum X mengalami Keterlambatan Dana > 14 Hari & terdeteksi 3 keluhan 'makanan berbau asam'.",
+      "kitchen_id": "z1",
+      "kitchen_name": "Dapur Umum X",
+      "region": "Jakarta Timur",
+      "location": { "lat": -6.225, "lon": 106.9 },
+      "trigger_aspect": "Kesehatan",
+      "trigger_source": "fusion-engine",
+      "anggaran_delay_days": 14,
+      "complaint_count": 3,
+      "created_at": "2026-06-15T01:00:00Z",
+      "ingested_at": "2026-06-15T01:00:05Z"
+    },
+    {
+      "alert_id": "a2",
+      "level": "warning",
+      "title": "Keterlambatan Distribusi",
+      "message": "Pengiriman bahan baku terlambat 6 jam dari jadwal rutin.",
+      "kitchen_id": "z2",
+      "kitchen_name": "Dapur Umum Y",
+      "region": "Bandung",
+      "location": { "lat": -6.914, "lon": 107.61 },
+      "trigger_aspect": "Logistik",
+      "trigger_source": "spark-streaming",
+      "anggaran_delay_days": 0,
+      "complaint_count": 0,
+      "created_at": "2026-06-15T00:56:00Z",
+      "ingested_at": "2026-06-15T00:56:05Z"
+    },
+    {
+      "alert_id": "a3",
+      "level": "warning",
+      "title": "Sentimen Negatif Meningkat",
+      "message": "ABSA mendeteksi spike keluhan 'Kualitas Dapur' +38% (1 jam).",
+      "kitchen_id": null,
+      "kitchen_name": null,
+      "region": "Sulawesi",
+      "location": { "lat": -1.0, "lon": 121.0 },
+      "trigger_aspect": "Kualitas Dapur",
+      "trigger_source": "indobert-absa",
+      "anggaran_delay_days": 0,
+      "complaint_count": 0,
+      "created_at": "2026-06-15T00:48:00Z",
+      "ingested_at": "2026-06-15T00:48:05Z"
+    },
+    {
+      "alert_id": "a4",
+      "level": "info",
+      "title": "Anomali Anggaran Terdeteksi",
+      "message": "Isolation Forest menandai pola pencairan tidak biasa.",
+      "kitchen_id": "z3",
+      "kitchen_name": "Dapur Umum Z",
+      "region": "Surabaya",
+      "location": { "lat": -7.257, "lon": 112.752 },
+      "trigger_aspect": "Anggaran",
+      "trigger_source": "isolation-forest",
+      "anggaran_delay_days": 5,
+      "complaint_count": 0,
+      "created_at": "2026-06-15T00:33:00Z",
+      "ingested_at": "2026-06-15T00:33:05Z"
+    }
+  ],
+
+  "sentiment": [
+    { "aspect": "Kesehatan",       "region": "Nasional", "positive_score": 82, "negative_score": 12, "neutral_score": 6,  "delta_pct": 3.4,  "window_start": "2026-06-15T00:00:00Z", "window_end": "2026-06-15T01:00:00Z" },
+    { "aspect": "Anggaran",        "region": "Nasional", "positive_score": 47, "negative_score": 41, "neutral_score": 12, "delta_pct": -8.1, "window_start": "2026-06-15T00:00:00Z", "window_end": "2026-06-15T01:00:00Z" },
+    { "aspect": "Logistik",        "region": "Nasional", "positive_score": 64, "negative_score": 28, "neutral_score": 8,  "delta_pct": -2.2, "window_start": "2026-06-15T00:00:00Z", "window_end": "2026-06-15T01:00:00Z" },
+    { "aspect": "Kualitas Dapur",  "region": "Nasional", "positive_score": 71, "negative_score": 21, "neutral_score": 8,  "delta_pct": 1.6,  "window_start": "2026-06-15T00:00:00Z", "window_end": "2026-06-15T01:00:00Z" }
+  ],
+
+  "risk_zones": [
+    { "zone_id": "z1",  "kitchen_name": "Dapur Umum X — Jakarta Timur", "region": "Jakarta Timur", "location": { "lat": -6.225, "lon": 106.9 },   "risk_level": "critical", "risk_score": 0.91, "anggaran_status": "terlambat", "last_complaint_at": "2026-06-15T01:00:00Z", "updated_at": "2026-06-15T01:00:00Z" },
+    { "zone_id": "z2",  "kitchen_name": "Dapur Umum Y — Bandung",       "region": "Bandung",       "location": { "lat": -6.914, "lon": 107.61 },  "risk_level": "warning",  "risk_score": 0.62, "anggaran_status": "lancar",    "last_complaint_at": "2026-06-15T00:56:00Z", "updated_at": "2026-06-15T00:56:00Z" },
+    { "zone_id": "z3",  "kitchen_name": "Dapur Umum Z — Surabaya",      "region": "Surabaya",      "location": { "lat": -7.257, "lon": 112.752 }, "risk_level": "warning",  "risk_score": 0.55, "anggaran_status": "anomali",   "last_complaint_at": "2026-06-15T00:33:00Z", "updated_at": "2026-06-15T00:33:00Z" },
+    { "zone_id": "z4",  "kitchen_name": "Dapur Medan",                  "region": "Medan",         "location": { "lat": 3.595,  "lon": 98.672 },  "risk_level": "safe",     "risk_score": 0.12, "anggaran_status": "lancar",    "last_complaint_at": null, "updated_at": "2026-06-15T00:00:00Z" },
+    { "zone_id": "z5",  "kitchen_name": "Dapur Makassar",               "region": "Makassar",      "location": { "lat": -5.147, "lon": 119.432 }, "risk_level": "safe",     "risk_score": 0.10, "anggaran_status": "lancar",    "last_complaint_at": null, "updated_at": "2026-06-15T00:00:00Z" },
+    { "zone_id": "z6",  "kitchen_name": "Dapur Denpasar",               "region": "Denpasar",      "location": { "lat": -8.65,  "lon": 115.216 }, "risk_level": "safe",     "risk_score": 0.08, "anggaran_status": "lancar",    "last_complaint_at": null, "updated_at": "2026-06-15T00:00:00Z" },
+    { "zone_id": "z7",  "kitchen_name": "Dapur Palembang",              "region": "Palembang",     "location": { "lat": -2.99,  "lon": 104.756 }, "risk_level": "warning",  "risk_score": 0.48, "anggaran_status": "terlambat", "last_complaint_at": "2026-06-14T22:10:00Z", "updated_at": "2026-06-14T22:10:00Z" },
+    { "zone_id": "z8",  "kitchen_name": "Dapur Banjarmasin",            "region": "Banjarmasin",   "location": { "lat": -3.32,  "lon": 114.59 },  "risk_level": "safe",     "risk_score": 0.15, "anggaran_status": "lancar",    "last_complaint_at": null, "updated_at": "2026-06-15T00:00:00Z" },
+    { "zone_id": "z9",  "kitchen_name": "Dapur Manado",                 "region": "Manado",        "location": { "lat": 1.474,  "lon": 124.842 }, "risk_level": "safe",     "risk_score": 0.09, "anggaran_status": "lancar",    "last_complaint_at": null, "updated_at": "2026-06-15T00:00:00Z" },
+    { "zone_id": "z10", "kitchen_name": "Dapur Pontianak",              "region": "Pontianak",     "location": { "lat": -0.026, "lon": 109.342 }, "risk_level": "critical", "risk_score": 0.88, "anggaran_status": "terlambat", "last_complaint_at": "2026-06-15T00:40:00Z", "updated_at": "2026-06-15T00:40:00Z" }
+  ],
+
+  "stats": [
+    { "metric_key": "dapur_aktif",       "label": "Dapur Aktif",       "value": 12480,   "unit": "count",   "recorded_at": "2026-06-15T01:00:00Z" },
+    { "metric_key": "penerima_manfaat",  "label": "Penerima Manfaat",  "value": 8300000, "unit": "count",   "recorded_at": "2026-06-15T01:00:00Z" },
+    { "metric_key": "zona_aman",         "label": "Zona Aman",         "value": 94.2,    "unit": "percent", "recorded_at": "2026-06-15T01:00:00Z" },
+    { "metric_key": "red_flags_24h",     "label": "Red Flags (24j)",   "value": 17,      "unit": "count",   "recorded_at": "2026-06-15T01:00:00Z" }
+  ]
+}

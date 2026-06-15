@@ -1,0 +1,34 @@
+{
+  "_comment": "Index: nutriwatch-alerts | Sumber: Spark Streaming output (red flag detection) -> dipakai oleh frontend/src/components/dashboard/AlertPanel.tsx",
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1,
+    "index.lifecycle.name": "nutriwatch-alerts-ilm-policy",
+    "index.lifecycle.rollover_alias": "nutriwatch-alerts"
+  },
+  "aliases": {
+    "nutriwatch-alerts": {
+      "is_write_index": true
+    }
+  },
+  "mappings": {
+    "properties": {
+      "alert_id":     { "type": "keyword" },
+      "level":        { "type": "keyword" },
+      "title":        { "type": "text" },
+      "message":      { "type": "text" },
+      "kitchen_id":   { "type": "keyword" },
+      "kitchen_name": { "type": "keyword" },
+      "region":       { "type": "keyword" },
+      "location": {
+        "type": "geo_point"
+      },
+      "trigger_aspect": { "type": "keyword" },
+      "trigger_source": { "type": "keyword" },
+      "anggaran_delay_days": { "type": "integer" },
+      "complaint_count":     { "type": "integer" },
+      "created_at":   { "type": "date" },
+      "ingested_at":  { "type": "date" }
+    }
+  }
+}
