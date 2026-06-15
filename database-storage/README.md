@@ -100,5 +100,3 @@ bash scripts/verify_cluster.sh
 
 Semua index `nutriwatch-*` dirancang agar query dashboard (filter, sort by waktu,
 geo bounding box untuk peta) tetap di bawah 200ms pada skala data lab.
-
----
