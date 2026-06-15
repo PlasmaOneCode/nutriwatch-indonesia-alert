@@ -53,6 +53,10 @@ Repositori ini menggunakan struktur *monorepo* untuk memfasilitasi kolaborasi se
 
 ```text
 ├── /frontend               # [Tugas Abiyyu] Aplikasi Dashboard React, Tailwind, & Leaflet Maps
+│   ├── src/                # Source code React (routes, components, hooks, lib)
+│   ├── package.json        # Dependencies & scripts
+│   ├── vite.config.ts      # Vite + TanStack Start config
+│   └── tsconfig.json       # TypeScript config
 ├── /data-engineering       # [Tugas Daniswara] Pipeline Ingestion (Apache Kafka & Apache NiFi)
 ├── /big-data-processing    # [Tugas Fachry] Core Processing Scripts (Apache Spark Streaming)
 ├── /ml-nlp                 # [Tugas Irul] Model IndoBERT (ABSA) & Isolation Forest
