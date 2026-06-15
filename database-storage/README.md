@@ -102,20 +102,3 @@ Semua index `nutriwatch-*` dirancang agar query dashboard (filter, sort by waktu
 geo bounding box untuk peta) tetap di bawah 200ms pada skala data lab.
 
 ---
-
-## 4. Integrasi dengan Anggota Lain
-
-- **Huda (Data Engineering)**: output NiFi/Kafka ditulis ke zona
-  `/nutriwatch/landing/*` di HDFS sesuai topik (`dapur-umum-events`,
-  `keluhan-stream`, `anggaran-events`).
-- **Fachry (Big Data Processing)**: job Spark Streaming membaca dari landing
-  zone HDFS, menulis hasil agregasi ke `/nutriwatch/processed/*` (HDFS) dan
-  meng-index hasil real-time ke `nutriwatch-alerts` & `nutriwatch-risk-zones`
-  (Elasticsearch).
-- **Irul (ML & NLP)**: dataset training disimpan di
-  `/nutriwatch/datasets/{indobert_absa,isolation_forest}`; hasil agregasi ABSA
-  diindeks ke `nutriwatch-sentiment`.
-- **Abiyyu (Frontend)**: dashboard React melakukan query langsung ke
-  Elasticsearch (`nutriwatch-alerts`, `nutriwatch-sentiment`,
-  `nutriwatch-risk-zones`, `nutriwatch-stats`) via REST API pada
-  `http://localhost:9200`.
