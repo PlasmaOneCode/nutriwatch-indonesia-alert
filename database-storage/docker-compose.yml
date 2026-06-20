@@ -1,0 +1,120 @@
+version: "3.8"
+
+# =========================================================================
+# NutriWatch - Database & Storage Layer
+# Tugas: Daniswara Fausta Novanto (5027241050) - Database & Storage Engineer
+#
+# Komponen:
+#  - HDFS (NameNode + 2x DataNode)  -> cold storage raw events & dataset training
+#  - Elasticsearch (single-node cluster) -> hot index untuk dashboard
+#  - Kibana (opsional, untuk inspeksi index secara visual)
+# =========================================================================
+
+x-hadoop-common: &hadoop-common
+  image: bde2020/hadoop-base:2.0.0-hadoop3.2.1-java8
+  env_file:
+    - ./hdfs/config/hadoop.env
+  networks:
+    - nutriwatch-net
+
+services:
+
+  # -----------------------------------------------------------------------
+  # HDFS Cluster
+  # -----------------------------------------------------------------------
+  namenode:
+    <<: *hadoop-common
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: nutriwatch-namenode
+    restart: always
+    ports:
+      - "9870:9870"   # NameNode Web UI
+      - "9000:9000"   # FS default
+    volumes:
+      - hdfs_namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=nutriwatch
+
+  datanode1:
+    <<: *hadoop-common
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: nutriwatch-datanode1
+    restart: always
+    depends_on:
+      - namenode
+    ports:
+      - "9864:9864"
+    volumes:
+      - hdfs_datanode1:/hadoop/dfs/data
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+
+  datanode2:
+    <<: *hadoop-common
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: nutriwatch-datanode2
+    restart: always
+    depends_on:
+      - namenode
+    ports:
+      - "9865:9864"
+    volumes:
+      - hdfs_datanode2:/hadoop/dfs/data
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+
+  # -----------------------------------------------------------------------
+  # Elasticsearch (Hot Index untuk Dashboard)
+  # -----------------------------------------------------------------------
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    container_name: nutriwatch-elasticsearch
+    restart: always
+    environment:
+      - node.name=nutriwatch-es01
+      - cluster.name=nutriwatch-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - nutriwatch-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q '\"status\":\"green\"\\|\"status\":\"yellow\"'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # -----------------------------------------------------------------------
+  # Kibana (opsional - untuk verifikasi index/mapping secara visual)
+  # -----------------------------------------------------------------------
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.13.4
+    container_name: nutriwatch-kibana
+    restart: always
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - nutriwatch-net
+
+networks:
+  nutriwatch-net:
+    driver: bridge
+
+volumes:
+  hdfs_namenode:
+  hdfs_datanode1:
+  hdfs_datanode2:
+  es_data:

@@ -1,0 +1,16 @@
+{
+  "_comment": "Index: nutriwatch-stats | Sumber: agregat harian Spark Streaming -> dipakai oleh frontend/src/components/dashboard/StatStrip.tsx",
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "properties": {
+      "metric_key":   { "type": "keyword" },
+      "label":        { "type": "keyword" },
+      "value":        { "type": "double" },
+      "unit":         { "type": "keyword" },
+      "recorded_at":  { "type": "date" }
+    }
+  }
+}

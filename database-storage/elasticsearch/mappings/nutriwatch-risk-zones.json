@@ -1,0 +1,20 @@
+{
+  "_comment": "Index: nutriwatch-risk-zones | Sumber: hasil fusi Spark Streaming (operasional + sentimen) -> dipakai oleh frontend/src/components/dashboard/RiskMap.tsx",
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "properties": {
+      "zone_id":      { "type": "keyword" },
+      "kitchen_name": { "type": "keyword" },
+      "region":       { "type": "keyword" },
+      "location":     { "type": "geo_point" },
+      "risk_level":   { "type": "keyword" },
+      "risk_score":   { "type": "float" },
+      "anggaran_status":  { "type": "keyword" },
+      "last_complaint_at": { "type": "date" },
+      "updated_at":   { "type": "date" }
+    }
+  }
+}

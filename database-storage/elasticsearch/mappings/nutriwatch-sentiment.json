@@ -1,0 +1,19 @@
+{
+  "_comment": "Index: nutriwatch-sentiment | Sumber: IndoBERT ABSA aggregates (ML & NLP) -> dipakai oleh frontend/src/components/dashboard/SentimentGrid.tsx",
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "properties": {
+      "aspect":        { "type": "keyword" },
+      "region":        { "type": "keyword" },
+      "positive_score": { "type": "float" },
+      "negative_score": { "type": "float" },
+      "neutral_score":  { "type": "float" },
+      "delta_pct":      { "type": "float" },
+      "window_start":   { "type": "date" },
+      "window_end":     { "type": "date" }
+    }
+  }
+}
