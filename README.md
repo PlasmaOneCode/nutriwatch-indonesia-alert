@@ -1,4 +1,4 @@
-# NutriWatch: Big Data-Driven Early Warning System untuk Ekosistem Program Makan Bergizi Gratis (MBG)
+# NutriWatch: Big Data-Driven Early Warning System untuk Deteksi Dini Risiko Keracunan Massal pada Program Makan Bergizi Gratis (MBG)
 
 <div align="center">
   <!-- Logo Proyek -->
