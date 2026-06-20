@@ -1,0 +1,38 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "index": {
+      "refresh_interval": "5s"
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "window_date": {
+        "type": "date",
+        "format": "yyyy-MM-dd"
+      },
+      "region": {
+        "type": "keyword"
+      },
+      "anomaly_score": {
+        "type": "float"
+      },
+      "is_signal": {
+        "type": "boolean"
+      },
+      "tweet_volume": {
+        "type": "integer"
+      },
+      "negative_ratio": {
+        "type": "float"
+      },
+      "dominant_aspect": {
+        "type": "keyword"
+      }
+    }
+  }
+}

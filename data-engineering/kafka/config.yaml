@@ -1,0 +1,41 @@
+# Kafka Producer Configuration — NutriWatch
+
+kafka:
+  bootstrap_servers: "localhost:9092"
+  topic: "mbg-text-stream"
+
+replay:
+  # Messages per second (adjust for demo speed)
+  rate: 50
+  # Delay between messages in seconds (1/rate, computed automatically)
+  # Set rate=0 for maximum speed (no delay)
+  
+  # Column mapping from dataset CSV
+  text_column: "full_text"           # Column containing tweet/comment text
+  timestamp_column: "created_at"     # Column containing timestamp
+  
+  # Fallback column names (tried in order if primary not found)
+  text_column_fallbacks:
+    - "text"
+    - "tweet"
+    - "content"
+    - "Text"
+    - "Tweet"
+  timestamp_column_fallbacks:
+    - "timestamp"
+    - "date"
+    - "Date"
+    - "Timestamp"
+    - "created_at"
+
+dataset:
+  # Path to dataset CSV file (relative to project root)
+  path: "datasets/mbg_tweets.csv"
+  # Encoding
+  encoding: "utf-8"
+  # Separator
+  separator: ","
+
+logging:
+  # Log progress every N messages
+  log_interval: 100

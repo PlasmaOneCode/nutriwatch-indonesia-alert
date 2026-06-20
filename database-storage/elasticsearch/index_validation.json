@@ -1,0 +1,47 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "index": {
+      "refresh_interval": "5s"
+    }
+  },
+  "mappings": {
+    "properties": {
+      "signal_id": {
+        "type": "keyword"
+      },
+      "signal_date": {
+        "type": "date",
+        "format": "yyyy-MM-dd"
+      },
+      "matched_incident_id": {
+        "type": "keyword"
+      },
+      "lag_days": {
+        "type": "integer"
+      },
+      "matched": {
+        "type": "boolean"
+      },
+      "incident_date": {
+        "type": "date",
+        "format": "yyyy-MM-dd"
+      },
+      "incident_location": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "incident_victim_count": {
+        "type": "integer"
+      },
+      "region": {
+        "type": "keyword"
+      }
+    }
+  }
+}

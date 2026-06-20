@@ -19,19 +19,24 @@
 
 ---
 
-## 📌 Latar Belakang
+### 📌 Latar Belakang
 
-Pelaksanaan Program Makan Bergizi Gratis (MBG) skala nasional merupakan pilar strategis pemerintah untuk meningkatkan kualitas SDM. Namun, dalam implementasi awalnya, ekosistem MBG menghadapi tantangan multidimensional di lapangan yang mengancam keberlangsungan program serta keselamatan penerima manfaat. Permasalahan nyata tersebut dapat dikategorikan ke dalam empat klaster utama: krisis kesehatan (kasus keracunan massal), masalah standarisasi dapur (HACCP), anomali finansial & operasional (keterlambatan dana vendor), serta ketimpangan distribusi di wilayah 3T.
+Pelaksanaan Program Makan Bergizi Gratis (MBG) skala nasional merupakan pilar strategis pemerintah untuk meningkatkan kualitas SDM. Namun, dalam implementasi awalnya, ekosistem MBG menghadapi tantangan multidimensional di lapangan yang mengancam keberlangsungan program serta keselamatan penerima manfaat. Permasalahan nyata tersebut meliputi kasus keracunan massal di berbagai daerah (seperti data yang dihimpun dari Wikipedia dan portal berita resmi).
 
-NutriWatch hadir sebagai solusi proaktif (*Early Warning System*) yang memanfaatkan teknik fusi data (*data fusion*) skala besar. Sistem ini secara cerdas mengorelasikan data statis finansial operasional dengan aliran data dinamis berupa keluhan masyarakat di media sosial secara *real-time*. Melalui pendekatan ini, potensi penurunan kualitas makanan akibat masalah *cashflow* dapur umum dapat dideteksi sejak dini sebelum terjadi eskalasi kasus keracunan massal.
+NutriWatch hadir sebagai solusi proaktif (*Early Warning System*) yang memanfaatkan pemrosesan Big Data. Sistem ini menghubungkan data dinamis berupa keluhan masyarakat di media sosial (simulasi data streaming Twitter) dengan riwayat insiden resmi. Melalui analisis sentimen dan ekstraksi aspek, potensi penurunan kualitas makanan (misalnya higienitas atau porsi) dapat dideteksi sejak dini sebelum terjadi eskalasi kasus keracunan massal yang lebih parah.
 
 ---
 
 ## 🚀 Penjelasan Aplikasi
 
-NutriWatch adalah aplikasi pemantauan berbasis Big Data yang mengintegrasikan lapisan pemrosesan data bervolume tinggi dengan kecerdasan buatan untuk mengawal ekosistem MBG. Arsitektur sistem ini mengandalkan Apache Kafka dan Apache NiFi untuk *data ingestion*, serta Apache Spark Streaming sebagai mesin pemrosesan inti untuk menggabungkan data operasional dan data sentimen publik. Analisis teks dilakukan secara mendalam menggunakan model Deep Learning IndoBERT untuk *Aspect-Based Sentiment Analysis* (ABSA) guna memetakan keluhan pada aspek spesifik seperti kesehatan, anggaran, logistik, dan kualitas dapur.
+NutriWatch adalah aplikasi pemantauan berbasis Big Data yang mengintegrasikan lapisan pemrosesan data bervolume tinggi dengan machine learning NLP. Arsitektur sistem ini menggunakan:
+1. **Data Ingestion**: Apache Kafka untuk mereplay dataset teks/tweet sebagai data *streaming* real-time, dan Python Script untuk ingest rekaman insiden CSV ke HDFS.
+2. **Big Data Processing**: Apache Spark Structured Streaming untuk memproses teks secara paralel dan mengekstrak fitur harian (time windows) berdasarkan rasio sentimen negatif.
+3. **ML & NLP**: Model Zero-Shot IndoBERT (mDeBERTa) digunakan untuk *Aspect-Based Sentiment Analysis* (ABSA) mengklasifikasikan keluhan ke 4 aspek utama (rasa, porsi, distribusi, higienitas). Pendekatan Zero-Shot ini diambil untuk mengoptimalkan batasan VRAM 4GB. Selain itu, digunakan *Isolation Forest* untuk mendeteksi sinyal anomali, serta *Lag Evaluator* untuk memvalidasi seberapa akurat sinyal memprediksi insiden nyata.
+4. **Database & API**: Hadoop Distributed File System (HDFS) untuk menyimpan raw data, dan Elasticsearch untuk mengindeks data agregasi yang sudah bersih. Terdapat backend Flask REST API untuk menjembatani Elasticsearch dengan aplikasi Frontend.
+5. **Frontend**: Dasbor interaktif berbasis React dan Tailwind CSS untuk visualisasi peta risiko dan tren sentimen secara real-time.
 
-Pada sisi antarmuka, NutriWatch menyajikan dasbor monitoring interaktif tingkat *enterprise* yang dibangun menggunakan React dan Tailwind CSS. Fitur utama dasbor ini meliputi visualisasi peta risiko spasial interaktif berbasis OpenStreetMap (OSM) dan React-Leaflet untuk memetakan zonasi aman hingga darurat dapur umum, visualisasi persentase sentimen aspek, serta sistem notifikasi otomatis *Red Flag* yang menyala secara *real-time* ketika indikasi bahaya keracunan terdeteksi oleh sistem inti.
+Semua infrastruktur dijalankan menggunakan *Docker Compose* secara lokal.
 
 ---
 
@@ -39,11 +44,11 @@ Pada sisi antarmuka, NutriWatch menyajikan dasbor monitoring interaktif tingkat 
 
 | No. | Nama | NRP | Peran Kelompok | Tanggung Jawab Teknis Utama |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | Muhammad Huda Rabbani | 5027241098 | Lead Data Engineer | Membangun arsitektur pipeline data menggunakan Apache Kafka dan Apache NiFi; bertanggung jawab atas kelancaran ingestion data dari sumber eksternal ke cluster pemrosesan. |
-| 2 | Muhammad Fachry Shalahuddin Rusamsi | 5027241031 | Big Data Developer | Mengembangkan skrip pemrosesan inti pada Apache Spark Streaming; melakukan transformasi, pembersihan data masif, dan penggabungan (data join) antar-dataset operasional. |
-| 3 | Muhammad Khairul Yahya | 5027241092 | ML & NLP Specialist | Melatih model IndoBERT untuk Aspect-Based Sentiment Analysis; mengembangkan skrip deteksi anomali anggaran menggunakan algoritma machine learning (scikit-learn/PyTorch). |
-| 4 | Daniswara Fausta Novanto | 5027241050 | Database & Storage Engineer | Mengonfigurasi klaster HDFS dan mengoptimalkan indeks pencarian pada Elasticsearch; memastikan retensi data aman dan kueri dashboard berjalan dengan latensi rendah. |
-| 5 | Abiyyu Raihan Putra Wikanto | 5027241042 | UI/UX & Frontend Dev | Membangun dashboard monitoring interaktif (Grafana/React); mengintegrasikan visualisasi peta risiko (geospatial), sistem notifikasi red-flag, dan penyusunan dokumen laporan. |
+| 1 | Muhammad Huda Rabbani | 5027241098 | Lead Data Engineer | Mengembangkan script *data extraction* insiden (Scraping Wikipedia/PDF ke CSV), *Kafka Producer* untuk replay streaming dataset, dan script Python ingestion *batch* ke HDFS. |
+| 2 | Muhammad Fachry Shalahuddin Rusamsi | 5027241031 | Big Data Developer | Mengembangkan pemrosesan inti pada *Apache Spark Streaming*; memanggil model ABSA sebagai UDF, lalu mengekstrak *feature windows* harian dan mengeksekusi deteksi anomali. |
+| 3 | Muhammad Khairul Yahya | 5027241092 | ML & NLP Specialist | Mengimplementasikan model *Zero-Shot Classification* IndoBERT untuk Aspect-Based Sentiment Analysis dan mengembangkan algoritma *Isolation Forest* & *Lag Evaluator* menggunakan scikit-learn/pandas. |
+| 4 | Daniswara Fausta Novanto | 5027241050 | Database & Storage Engineer | Mengonfigurasi arsitektur lokal via `docker-compose.yml` (Zookeeper, Kafka, Namenode, Datanode, Elasticsearch). Menyusun *mapping* skema indeks Elasticsearch dan HDFS. |
+| 5 | Abiyyu Raihan Putra Wikanto | 5027241042 | UI/UX & Frontend Dev | Membangun dashboard monitoring interaktif berbasis React/Vite. Selain itu, juga merancang dan mengimplementasikan **Flask REST API** (`api/app.py`) sebagai perantara Frontend ke Backend. |
 
 ---
 
@@ -52,55 +57,68 @@ Pada sisi antarmuka, NutriWatch menyajikan dasbor monitoring interaktif tingkat 
 Repositori ini menggunakan struktur *monorepo* untuk memfasilitasi kolaborasi seluruh anggota tim ekosistem Big Data NutriWatch:
 
 ```text
+├── /api                    # [Tugas Abiyyu] Flask REST API Wrapper (Endpoint /api/signals, /api/stats, dll)
+├── /big-data-processing    # [Tugas Fachry] Apache Spark Streaming & Feature Extraction
+├── /data-engineering       # [Tugas Huda] Pipeline Ingestion (Kafka Producer & HDFS Script) + Data Extraction CSV
+├── /database-storage       # [Tugas Danis] Skema HDFS & Konfigurasi Mapping Elasticsearch
 ├── /frontend               # [Tugas Abiyyu] Aplikasi Dashboard React, Tailwind, & Leaflet Maps
-│   ├── src/                # Source code React (routes, components, hooks, lib)
-│   ├── package.json        # Dependencies & scripts
-│   ├── vite.config.ts      # Vite + TanStack Start config
-│   └── tsconfig.json       # TypeScript config
-├── /data-engineering       # [Tugas Huda] Pipeline Ingestion (Apache Kafka & Apache NiFi)
-├── /big-data-processing    # [Tugas Fachry] Core Processing Scripts (Apache Spark Streaming)
-├── /ml-nlp                 # [Tugas Irul] Model IndoBERT (ABSA) & Isolation Forest
-└── /database-storage       # [Tugas Danis] Konfigurasi Cluster HDFS & Indexing Elasticsearch
-
+├── /ml-nlp                 # [Tugas Irul] Model IndoBERT Zero-Shot, Anomaly Detection, & Lag Evaluator
+├── docker-compose.yml      # Konfigurasi infrastruktur (Zookeeper, Kafka, Hadoop, Elasticsearch)
+└── extract_incidents_from_pdf.py # Script awal untuk mengoleksi data resmi ke CSV
 ```
 
 ---
 
 ## 🛠️ Cara Menjalankan Aplikasi
 
-### 1. Frontend & UI/UX Dashboard 
+Aplikasi ini menggunakan Docker untuk menjalankan komponen Big Data secara terisolasi.
 
-Bagian ini berisi aplikasi dasbor pemantauan berbasis React yang dikembangkan melalui Lovable AI.
-
-**Prasyarat:** Pastikan Anda sudah menginstal [Node.js](https://nodejs.org/) (Direkomendasikan v18 atau versi di atasnya).
-
+### 1. Menjalankan Infrastruktur Dasar (Docker)
+Pastikan Docker Desktop sudah aktif.
 ```bash
-# Masuk ke direktori frontend
-cd frontend
+# Menyalakan seluruh service (Zookeeper, Kafka, Hadoop, Elasticsearch)
+docker-compose up -d
 
-# Install semua dependencies (termasuk Tailwind, Lucide Icons, dan React-Leaflet)
-npm install
-
-# Jalankan server lokal untuk development
-npm run dev
-
+# Mengecek status container
+docker-compose ps
 ```
 
-Setelah dijalankan, buka tautan `http://localhost:5173` (atau nomor port lain yang tertera pada terminal Anda) di browser.
+### 2. Frontend & API Backend
+Jalankan Flask API dan React Server secara paralel.
+```bash
+# Terminal 1: Menjalankan Flask API
+pip install flask flask-cors
+python api/app.py
+# API akan berjalan di http://localhost:5000
 
-### 2. Data Ingestion Pipeline 
+# Terminal 2: Menjalankan Frontend
+cd frontend
+npm install
+npm run dev
+# Dashboard akan berjalan di http://localhost:5173
+```
 
-> ⚠️ **[PLACEHOLDER]** *Akan diperbarui oleh Lead Data Engineer untuk konfigurasi script producer/consumer Apache Kafka dan flow Apache NiFi.*
+### 3. Pipeline Data Engineering (Ingestion)
+Untuk mensimulasikan aliran data teks dan insiden, jalankan script berikut:
+```bash
+# Ingest data insiden CSV historis ke dalam node HDFS
+python data-engineering/nifi/ingest_incidents.py
 
-### 3. Big Data Processing Core 
+# Mensimulasikan data streaming teks (mensyaratkan dataset kaggle di datasets/mbg_tweets.csv)
+pip install kafka-python-ng pyyaml pandas
+python data-engineering/kafka/producer.py
+```
 
-> ⚠️ **[PLACEHOLDER]** *Akan diperbarui oleh Big Data Developer untuk instruksi penyerahan script Apache Spark (submit job) dan transformasi data.*
+### 4. Big Data Processing & ML 
+Menjalankan job Spark untuk memproses teks dari Kafka dan menghasilkan sinyal anomali.
+```bash
+# Pastikan pyspark, scikit-learn, transformers, dan torch terinstall
+pip install pyspark findspark scikit-learn torch transformers pandas
 
-### 4. ML & NLP Models 
+# Menjalankan Spark Streaming 
+python big-data-processing/spark/streaming_job.py
 
-> ⚠️ **[PLACEHOLDER]** *Akan diperbarui oleh ML & NLP Specialist untuk cara memuat model IndoBERT fine-tuned dan deteksi Isolation Forest.*
-
-### 5. Database & Storage Layer 
-
-> ⚠️ **[PLACEHOLDER]** *Akan diperbarui oleh Database Engineer untuk skema pemetaan indeks Elasticsearch dan konfigurasi node HDFS.*
-
+# (Alternatif) Test run feature extraction & model anomali secara terpisah
+python big-data-processing/spark/feature_extractor.py
+python ml-nlp/validation/lag_evaluator.py
+```
