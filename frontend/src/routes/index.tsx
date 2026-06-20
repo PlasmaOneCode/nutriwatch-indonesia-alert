@@ -25,37 +25,11 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const articles = [
-  {
-    img: article1,
-    tag: "Insiden",
-    title: "Puluhan Siswa Dilarikan ke Rumah Sakit Diduga Keracunan MBG",
-    excerpt:
-      "Lorem ipsum — letakkan ringkasan berita di sini. Penjelasan singkat tentang insiden, jumlah korban, dan tindak lanjut dari pihak terkait.",
-    source: "Sumber Berita",
-    href: "#",
-  },
-  {
-    img: article2,
-    tag: "Investigasi",
-    title: "Rantai Pasok Dapur Umum: Titik Lemah Higienitas yang Sering Terabaikan",
-    excerpt:
-      "Lorem ipsum — letakkan teks Anda di sini. Liputan mendalam terkait standar dapur, audit, dan rekomendasi mitigasi.",
-    source: "Sumber Berita",
-    href: "#",
-  },
-  {
-    img: article3,
-    tag: "Analisis",
-    title: "Suara Penerima Manfaat: Apa Kata Anak-Anak Tentang Menu MBG?",
-    excerpt:
-      "Lorem ipsum — letakkan teks Anda di sini. Hasil wawancara dan analisis sentimen terhadap kualitas serta variasi menu.",
-    source: "Sumber Berita",
-    href: "#",
-  },
-];
+import { useNews } from "@/lib/api/nutriwatch";
 
 function Landing() {
+  const { data: newsItems, isLoading: newsLoading } = useNews();
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Top bar */}
@@ -151,15 +125,10 @@ function Landing() {
         </div>
         <div className="mt-8 grid md:grid-cols-2 gap-8 text-[15px] leading-relaxed text-muted-foreground">
           <p>
-            [Placeholder paragraf 1 — silakan ganti dengan narasi Anda sendiri.] Tulis
-            di sini latar belakang proyek, urgensi permasalahan keracunan dalam program
-            Makan Bergizi Gratis, dan dampaknya bagi anak-anak penerima manfaat.
+            NutriWatch lahir dari kebutuhan mendesak untuk melindungi jutaan anak-anak Indonesia yang menerima manfaat Program Makan Bergizi Gratis (MBG). Dengan skala nasional dan ribuan dapur umum yang terlibat, potensi risiko seperti higienitas makanan dan kecukupan gizi menjadi tantangan besar. Kami percaya pencegahan adalah kunci keselamatan mereka.
           </p>
           <p>
-            [Placeholder paragraf 2 — silakan ganti dengan narasi Anda sendiri.]
-            Jelaskan tujuan teknis NutriWatch: pipeline Kafka/NiFi, pemrosesan Spark
-            Streaming, model ABSA IndoBERT, dan bagaimana semuanya menghasilkan
-            peringatan dini yang dapat ditindaklanjuti.
+            Oleh karena itu, kami membangun infrastruktur Big Data real-time menggunakan Spark Streaming dan Elasticsearch. Sistem ini membaca jutaan suara publik secara langsung, menggunakan teknologi AI *Natural Language Processing* (IndoBERT) untuk memfilter sinyal bahaya keracunan atau keluhan porsi, lalu menampilkannya sebagai *Early Warning System* sebelum krisis menyebar.
           </p>
         </div>
       </section>
@@ -183,43 +152,56 @@ function Landing() {
           </div>
 
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articles.map((a) => (
-              <article
-                key={a.title}
-                className="group rounded-2xl border bg-card overflow-hidden shadow-sm hover:shadow-md transition flex flex-col"
-              >
-                <div className="aspect-[16/10] overflow-hidden bg-muted">
-                  <img
-                    src={a.img}
-                    alt={a.title}
-                    loading="lazy"
-                    width={1024}
-                    height={640}
-                    className="h-full w-full object-cover group-hover:scale-[1.03] transition duration-500"
-                  />
-                </div>
-                <div className="p-5 flex flex-col flex-1">
-                  <span className="inline-flex w-fit items-center rounded-full bg-warn/10 text-warn ring-1 ring-warn/30 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider">
-                    {a.tag}
-                  </span>
-                  <h3 className="mt-3 font-semibold text-base leading-snug">
-                    {a.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed flex-1">
-                    {a.excerpt}
-                  </p>
-                  <a
-                    href={a.href}
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-navy hover:text-gold transition"
-                  >
-                    Baca selengkapnya <ExternalLink className="h-3.5 w-3.5" />
-                  </a>
-                  <div className="mt-2 text-[11px] text-muted-foreground">
-                    {a.source}
+            {newsLoading ? (
+              <div className="col-span-full py-10 text-center text-sm text-muted-foreground">
+                Memuat berita terkini dari Google News...
+              </div>
+            ) : !newsItems || newsItems.length === 0 ? (
+              <div className="col-span-full py-10 text-center text-sm text-muted-foreground">
+                Tidak ada berita terkait saat ini.
+              </div>
+            ) : (
+              newsItems.map((a, idx) => (
+                <article
+                  key={idx}
+                  className="group rounded-2xl border bg-card overflow-hidden shadow-sm hover:shadow-md transition flex flex-col"
+                >
+                  <div className="aspect-[16/10] overflow-hidden bg-muted relative">
+                    <img
+                      src={a.image || (idx === 0 ? article1 : idx === 1 ? article2 : article3)}
+                      alt={a.title}
+                      loading="lazy"
+                      width={1024}
+                      height={640}
+                      className="h-full w-full object-cover group-hover:scale-[1.03] transition duration-500"
+                    />
                   </div>
-                </div>
-              </article>
-            ))}
+                  <div className="p-5 flex flex-col flex-1">
+                    <span className="inline-flex w-fit items-center rounded-full bg-warn/10 text-warn ring-1 ring-warn/30 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider">
+                      BERITA
+                    </span>
+                    <h3 className="mt-3 font-semibold text-base leading-snug line-clamp-2">
+                      {a.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed flex-1 line-clamp-3">
+                      {a.summary}
+                    </p>
+                    <a
+                      href={a.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-navy hover:text-gold transition"
+                    >
+                      Baca selengkapnya <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                    <div className="mt-2 text-[11px] text-muted-foreground flex justify-between">
+                      <span>{a.source}</span>
+                      <span>{new Date(a.published).toLocaleDateString("id-ID")}</span>
+                    </div>
+                  </div>
+                </article>
+              ))
+            )}
           </div>
         </div>
       </section>

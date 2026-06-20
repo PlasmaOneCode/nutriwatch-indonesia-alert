@@ -5,7 +5,6 @@ const tabs = [
   { to: "/overview", label: "Overview", icon: Activity },
   { to: "/alerts", label: "Live Alerts", icon: Bell },
   { to: "/map", label: "Map View", icon: MapIcon },
-  { to: "/reports", label: "Reports", icon: FileBarChart },
 ] as const;
 
 export function Header() {

@@ -11,8 +11,8 @@ replay:
   # Set rate=0 for maximum speed (no delay)
   
   # Column mapping from dataset CSV
-  text_column: "full_text"           # Column containing tweet/comment text
-  timestamp_column: "created_at"     # Column containing timestamp
+  text_column: "Tweet"             # Column containing tweet/comment text
+  timestamp_column: "Date Created" # Column containing timestamp
   
   # Fallback column names (tried in order if primary not found)
   text_column_fallbacks:

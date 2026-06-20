@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { RiskMap } from "@/components/dashboard/RiskMap";
 import { MapPin } from "lucide-react";
+import { useIncidents } from "@/lib/api/nutriwatch";
 
 export const Route = createFileRoute("/map")({
   head: () => ({
@@ -13,16 +14,10 @@ export const Route = createFileRoute("/map")({
   component: MapPage,
 });
 
-const regions = [
-  { name: "DKI Jakarta", critical: 2, warning: 4, safe: 38 },
-  { name: "Jawa Barat", critical: 1, warning: 7, safe: 92 },
-  { name: "Jawa Timur", critical: 0, warning: 5, safe: 81 },
-  { name: "Sumatera Utara", critical: 1, warning: 3, safe: 44 },
-  { name: "Sulawesi Selatan", critical: 0, warning: 2, safe: 39 },
-  { name: "Kalimantan Barat", critical: 1, warning: 1, safe: 21 },
-];
-
 function MapPage() {
+  const { data } = useIncidents();
+  const regions = data ?? [];
+
   return (
     <DashboardShell>
       <div className="flex items-center gap-3">

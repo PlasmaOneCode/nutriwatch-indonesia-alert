@@ -4,7 +4,7 @@ import subprocess
 from datetime import datetime
 
 HDFS_RAW_PATH = "/nutriwatch/incidents/raw"
-LOCAL_INCIDENTS_FILE = "incidents_full.csv"
+LOCAL_INCIDENTS_FILE = "data-engineering/extraction/incidents_full.csv"
 
 def run_cmd(cmd):
     """Run shell command and return output."""
@@ -61,16 +61,17 @@ def main():
     # For Docker, we first need to copy the file into the container, then put to HDFS
     print(f"\n[4] Uploading {LOCAL_INCIDENTS_FILE} to HDFS...")
     try:
+        base_name = os.path.basename(LOCAL_INCIDENTS_FILE)
         # Step A: Copy from host to container
         print("    ... copying to namenode container")
-        run_cmd(f"docker cp {LOCAL_INCIDENTS_FILE} nutriwatch-namenode:/tmp/{LOCAL_INCIDENTS_FILE}")
+        run_cmd(f"docker cp {LOCAL_INCIDENTS_FILE} nutriwatch-namenode:/tmp/{base_name}")
         
         # Step B: Put from container local to HDFS
-        print(f"    ... putting to HDFS {HDFS_RAW_PATH}/{LOCAL_INCIDENTS_FILE}")
-        run_cmd(f"docker exec nutriwatch-namenode hdfs dfs -put -f /tmp/{LOCAL_INCIDENTS_FILE} {HDFS_RAW_PATH}/{LOCAL_INCIDENTS_FILE}")
+        print(f"    ... putting to HDFS {HDFS_RAW_PATH}/{base_name}")
+        run_cmd(f"docker exec nutriwatch-namenode hdfs dfs -put -f /tmp/{base_name} {HDFS_RAW_PATH}/{base_name}")
         
         # Step C: Clean up container temp file
-        run_cmd(f"docker exec nutriwatch-namenode rm /tmp/{LOCAL_INCIDENTS_FILE}")
+        run_cmd(f"docker exec nutriwatch-namenode rm /tmp/{base_name}")
         
         print("    ✓ Upload completed successfully")
     except Exception as e:

@@ -9,17 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as OverviewRouteImport } from './routes/overview'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as AlertsRouteImport } from './routes/alerts'
 import { Route as IndexRouteImport } from './routes/index'
 
-const ReportsRoute = ReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const OverviewRoute = OverviewRouteImport.update({
   id: '/overview',
   path: '/overview',
@@ -46,14 +40,12 @@ export interface FileRoutesByFullPath {
   '/alerts': typeof AlertsRoute
   '/map': typeof MapRoute
   '/overview': typeof OverviewRoute
-  '/reports': typeof ReportsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/alerts': typeof AlertsRoute
   '/map': typeof MapRoute
   '/overview': typeof OverviewRoute
-  '/reports': typeof ReportsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,14 +53,13 @@ export interface FileRoutesById {
   '/alerts': typeof AlertsRoute
   '/map': typeof MapRoute
   '/overview': typeof OverviewRoute
-  '/reports': typeof ReportsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/alerts' | '/map' | '/overview' | '/reports'
+  fullPaths: '/' | '/alerts' | '/map' | '/overview'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/alerts' | '/map' | '/overview' | '/reports'
-  id: '__root__' | '/' | '/alerts' | '/map' | '/overview' | '/reports'
+  to: '/' | '/alerts' | '/map' | '/overview'
+  id: '__root__' | '/' | '/alerts' | '/map' | '/overview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,18 +67,10 @@ export interface RootRouteChildren {
   AlertsRoute: typeof AlertsRoute
   MapRoute: typeof MapRoute
   OverviewRoute: typeof OverviewRoute
-  ReportsRoute: typeof ReportsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/reports': {
-      id: '/reports'
-      path: '/reports'
-      fullPath: '/reports'
-      preLoaderRoute: typeof ReportsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/overview': {
       id: '/overview'
       path: '/overview'
@@ -124,7 +107,6 @@ const rootRouteChildren: RootRouteChildren = {
   AlertsRoute: AlertsRoute,
   MapRoute: MapRoute,
   OverviewRoute: OverviewRoute,
-  ReportsRoute: ReportsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

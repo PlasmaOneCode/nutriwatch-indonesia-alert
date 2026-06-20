@@ -31,12 +31,20 @@ export type Signal = {
   dominant_aspect: string;
 };
 
-export type Incident = {
-  id: string;
-  date: string;
-  location: string;
-  region: string;
-  victim_count: number;
+export type RegionSummary = {
+  name: string;
+  critical: number;
+  warning: number;
+  safe: number;
+};
+
+export type News = {
+  title: string;
+  link: string;
+  published: string;
+  source: string;
+  summary: string;
+  image?: string;
 };
 
 export type PipelineStatus = {
@@ -97,11 +105,21 @@ export function useSignals(days = 30) {
   });
 }
 
-export function useIncidents(days = 30) {
+export function useIncidents() {
   return useQuery({
-    queryKey: ["nw", "incidents", days],
-    queryFn: () => fetchJson<Incident[]>(`/api/incidents?days=${days}`, "insiden historis"),
-    staleTime: 60_000,
+    queryKey: ["nw", "incidents"],
+    queryFn: () => fetchJson<RegionSummary[]>(`/api/incidents`, "agregasi region"),
+    staleTime: 15_000,
+    refetchInterval: 30_000,
+    retry: 1,
+  });
+}
+
+export function useNews() {
+  return useQuery({
+    queryKey: ["nw", "news"],
+    queryFn: () => fetchJson<News[]>("/api/news", "berita"),
+    staleTime: 300_000,
     retry: 1,
   });
 }

@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { AlertPanel } from "@/components/dashboard/AlertPanel";
 import { Bell, Filter, RefreshCw } from "lucide-react";
+import { useSignals, usePipelineStatus } from "@/lib/api/nutriwatch";
 
 export const Route = createFileRoute("/alerts")({
   head: () => ({
@@ -13,14 +14,23 @@ export const Route = createFileRoute("/alerts")({
   component: AlertsPage,
 });
 
-const summary = [
-  { label: "Critical", value: 3, color: "text-warn", ring: "ring-warn/30", bg: "bg-warn/10" },
-  { label: "Warning", value: 11, color: "text-gold", ring: "ring-gold/30", bg: "bg-gold/10" },
-  { label: "Info", value: 24, color: "text-navy", ring: "ring-navy/20", bg: "bg-navy/5" },
-  { label: "Resolved (24j)", value: 47, color: "text-leaf", ring: "ring-leaf/30", bg: "bg-leaf/10" },
-];
-
 function AlertsPage() {
+  const { data: signals } = useSignals(30);
+  const { data: pipeline } = usePipelineStatus();
+  
+  const items = signals ?? [];
+  const criticalCount = items.filter((s) => s.is_signal && s.anomaly_score > 0.8).length;
+  const warningCount = items.filter((s) => s.is_signal && s.anomaly_score <= 0.8).length;
+  const infoCount = items.filter((s) => !s.is_signal).length;
+  const totalCount = items.length;
+
+  const summary = [
+    { label: "Critical", value: criticalCount, color: "text-warn", ring: "ring-warn/30", bg: "bg-warn/10" },
+    { label: "Warning", value: warningCount, color: "text-gold", ring: "ring-gold/30", bg: "bg-gold/10" },
+    { label: "Info", value: infoCount, color: "text-navy", ring: "ring-navy/20", bg: "bg-navy/5" },
+    { label: "Total (30h)", value: totalCount, color: "text-leaf", ring: "ring-leaf/30", bg: "bg-leaf/10" },
+  ];
+
   return (
     <DashboardShell>
       <div className="flex items-center justify-between flex-wrap gap-3">
@@ -31,7 +41,7 @@ function AlertsPage() {
           <div>
             <h1 className="text-xl font-bold">Live Alerts</h1>
             <p className="text-xs text-muted-foreground">
-              Notifikasi anomali dari Spark Streaming &amp; Isolation Forest
+              Notifikasi anomali dari Spark Streaming &amp; Elasticsearch
             </p>
           </div>
         </div>
@@ -53,7 +63,7 @@ function AlertsPage() {
             </div>
             <div className={`mt-2 text-3xl font-bold ${s.color}`}>{s.value}</div>
             <div className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] ${s.bg} ${s.color}`}>
-              last 24h
+              last 30 days
             </div>
           </div>
         ))}
@@ -64,14 +74,13 @@ function AlertsPage() {
           <AlertPanel />
         </div>
         <div className="rounded-2xl border bg-card p-5">
-          <h3 className="text-sm font-semibold">Sumber Sinyal</h3>
+          <h3 className="text-sm font-semibold">Sumber Sinyal (Real-time)</h3>
           <ul className="mt-4 space-y-3 text-sm">
             {[
-              { k: "Kafka topic: mbg.complaints", v: "1,247 msg/min" },
-              { k: "Kafka topic: mbg.budget-events", v: "84 msg/min" },
-              { k: "NiFi flow: kitchen-telemetry", v: "OK" },
-              { k: "IsolationForest model", v: "v2.3 · drift 0.4%" },
-              { k: "IndoBERT ABSA", v: "v1.1 · F1 0.87" },
+              { k: "Kafka Stream", v: pipeline?.stream_healthy ? "SEHAT" : "GANGGUAN" },
+              { k: "Spark Throughput", v: `${pipeline?.spark_throughput_rps?.toFixed(2) || 0} msg/sec` },
+              { k: "Model AI Aktif", v: pipeline?.model_versions?.[0]?.version || "IndoBERT" },
+              { k: "Elasticsearch", v: "Connected" },
             ].map((r) => (
               <li key={r.k} className="flex justify-between gap-3 border-b last:border-0 pb-2">
                 <span className="text-muted-foreground">{r.k}</span>

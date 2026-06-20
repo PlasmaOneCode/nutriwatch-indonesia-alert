@@ -1,3 +1,4 @@
+import os
 import json
 import time
 import uuid
@@ -8,7 +9,10 @@ from kafka import KafkaProducer
 from typing import Dict, Any
 
 def load_config(config_path: str = "config.yaml") -> Dict[str, Any]:
-    with open(config_path, 'r') as f:
+    # Resolve config_path relative to this script's directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    abs_config_path = os.path.join(script_dir, config_path)
+    with open(abs_config_path, 'r') as f:
         return yaml.safe_load(f)
 
 def setup_producer(config: Dict[str, Any]) -> KafkaProducer:

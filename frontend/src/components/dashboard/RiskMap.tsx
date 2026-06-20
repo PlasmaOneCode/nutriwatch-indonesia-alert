@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { useIncidents, coordsForRegion } from "@/lib/api/nutriwatch";
 
-function levelFromVictims(v: number): "safe" | "warning" | "critical" {
-  if (v >= 100) return "critical";
-  if (v >= 30) return "warning";
-  return "safe";
-}
+// level logic is handled directly in the component based on critical/warning counts
 
 const colorMap = {
   safe: "var(--leaf)",
@@ -15,7 +11,7 @@ const colorMap = {
 
 export function RiskMap() {
   const [Comp, setComp] = useState<any>(null);
-  const { data, isLoading } = useIncidents(30);
+  const { data, isLoading } = useIncidents();
 
   useEffect(() => {
     Promise.all([import("react-leaflet"), import("leaflet")]).then(([rl]) => {
@@ -23,15 +19,22 @@ export function RiskMap() {
     });
   }, []);
 
-  const markers = (data ?? []).map((inc) => {
-    const [lat, lng] = coordsForRegion(inc.region);
-    // tiny jitter so overlapping regions don't collapse
-    const seed = inc.id.length;
+  const markers = (data ?? []).map((region, idx) => {
+    const [lat, lng] = coordsForRegion(region.name);
+    let level: "safe" | "warning" | "critical" = "safe";
+    if (region.critical > 0) level = "critical";
+    else if (region.warning > 0) level = "warning";
+    
     return {
-      ...inc,
-      lat: lat + ((seed % 7) - 3) * 0.05,
-      lng: lng + ((seed % 5) - 2) * 0.05,
-      level: levelFromVictims(inc.victim_count),
+      id: `reg-${idx}`,
+      region: region.name,
+      critical: region.critical,
+      warning: region.warning,
+      safe: region.safe,
+      total: region.critical + region.warning + region.safe,
+      lat,
+      lng,
+      level,
     };
   });
 
@@ -76,11 +79,11 @@ export function RiskMap() {
               >
                 <Comp.Popup>
                   <div className="text-xs">
-                    <strong>{m.location}</strong>
+                    <strong>{m.region}</strong>
                     <br />
-                    {m.region} · {m.date}
+                    Total Sinyal: <strong>{m.total}</strong>
                     <br />
-                    Korban: <strong>{m.victim_count}</strong>
+                    Critical: <span className="text-warn">{m.critical}</span> | Warning: <span className="text-gold">{m.warning}</span>
                   </div>
                 </Comp.Popup>
               </Comp.CircleMarker>
